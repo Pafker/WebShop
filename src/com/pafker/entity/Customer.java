@@ -1,10 +1,13 @@
 package com.pafker.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,6 +30,11 @@ public class Customer {
 	
 	@Column(name = "registry_date")
 	private String date;
+	
+	// set up a relation between instructor and instructor detail
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="customer_delivery_addres")
+	private CustomerDeliveryAddres customerDeliveryAddres;
 
 	public Customer(){};
 	
@@ -77,13 +85,26 @@ public class Customer {
 	public void setDate(String date) {
 		this.date = date;
 	}
+	
+
+	public CustomerDeliveryAddres getCustomerDeliveryAddres() {
+		return customerDeliveryAddres;
+	}
+
+	public void setCustomerDeliveryAddres(
+			CustomerDeliveryAddres customerDeliveryAddres) {
+		this.customerDeliveryAddres = customerDeliveryAddres;
+	}
 
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", First Name=" + firstName
 				+ ", Last Name=" + lastName + ", Email=" + email + ", Registry Date="
-				+ date + "]";
+				+ date + ", Delivery Addres=" + customerDeliveryAddres
+				+ "]";
 	}
+	
+	
 	
 	
 }
