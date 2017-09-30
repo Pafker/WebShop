@@ -1,4 +1,4 @@
-package com.pafker.customer.service;
+package com.pafker.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

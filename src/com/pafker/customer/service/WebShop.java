@@ -7,16 +7,16 @@ public class WebShop {
 		CustomerService service = new CustomerService();
 
 		// create customer
-		//service.createCustomer(service);
+		service.createCustomer(service);
 
 		// query customer
-		//service.queryCustomer(service);
+		service.queryCustomer(service);
 		
 		// display all customers
 		service.displayCustomerList();
 
 		// update customer
-		//service.updateCustomer(service);
+		service.updateCustomer(service);
 		
 		// delete customer
 		service.deleteCustomer(service);

@@ -8,6 +8,9 @@ import java.util.Scanner;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
+import com.pafker.entity.Customer;
+import com.pafker.util.HibernateUtil;
+
 public class CustomerService {
 
 	private Scanner skaner = new Scanner(System.in);

@@ -1,7 +1,9 @@
-package com.pafker.customer.service;
+package com.pafker.util;
 
 import org.hibernate.cfg.Configuration;
 import org.hibernate.SessionFactory;
+
+import com.pafker.entity.Customer;
 
 public class HibernateUtil {
 
