@@ -4,6 +4,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.SessionFactory;
 
 import com.pafker.entity.Customer;
+import com.pafker.entity.CustomerDeliveryAddress;
 
 public class HibernateUtil {
 
@@ -12,7 +13,9 @@ public class HibernateUtil {
 	private static SessionFactory buildSessionFactory() {
 		SessionFactory factory = new Configuration()
 				.configure("hibernate.cfg.xml")
-				.addAnnotatedClass(Customer.class).buildSessionFactory();
+				.addAnnotatedClass(Customer.class)
+				.addAnnotatedClass(CustomerDeliveryAddress.class)
+				.buildSessionFactory();
 		return factory;
 	}
 

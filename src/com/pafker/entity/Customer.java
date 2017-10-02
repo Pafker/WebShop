@@ -18,32 +18,33 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-	
+
 	@Column(name = "first_name")
 	private String firstName;
-	
+
 	@Column(name = "last_name")
 	private String lastName;
-	
+
 	@Column(name = "email")
 	private String email;
-	
-	@Column(name = "registry_date")
-	private String date;
-	
-	// set up a relation between instructor and instructor detail
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="customer_delivery_addres")
-	private CustomerDeliveryAddres customerDeliveryAddres;
 
-	public Customer(){};
-	
+	@Column(name = "registry_date")
+	private String registryDate;
+
+	// set up a relation between instructor and instructor detail
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "customer_delivery_address_id")
+	private CustomerDeliveryAddress customerDeliveryAddress;
+
+	public Customer() {
+	};
+
 	public Customer(String firstName, String lastName, String email,
 			String registryDate) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.date = registryDate;
+		this.registryDate = registryDate;
 	}
 
 	public int getId() {
@@ -78,33 +79,29 @@ public class Customer {
 		this.email = email;
 	}
 
-	public String getDate() {
-		return date;
+	public String getRegistryDate() {
+		return registryDate;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setRegistryDate(String registryDate) {
+		this.registryDate = registryDate;
 	}
-	
 
-	public CustomerDeliveryAddres getCustomerDeliveryAddres() {
-		return customerDeliveryAddres;
+	public CustomerDeliveryAddress getCustomerDeliveryAddress() {
+		return customerDeliveryAddress;
 	}
 
 	public void setCustomerDeliveryAddres(
-			CustomerDeliveryAddres customerDeliveryAddres) {
-		this.customerDeliveryAddres = customerDeliveryAddres;
+			CustomerDeliveryAddress customerDeliveryAddress) {
+		this.customerDeliveryAddress = customerDeliveryAddress;
 	}
 
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", First Name=" + firstName
-				+ ", Last Name=" + lastName + ", Email=" + email + ", Registry Date="
-				+ date + ", Delivery Addres=" + customerDeliveryAddres
-				+ "]";
+				+ ", Last Name=" + lastName + ", Email=" + email
+				+ ", Registry Date=" + registryDate + ", Delivery Address="
+				+ customerDeliveryAddress + "]";
 	}
-	
-	
-	
-	
+
 }

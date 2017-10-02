@@ -14,30 +14,33 @@ import com.pafker.util.HibernateUtil;
 public class CustomerService {
 
 	private Scanner skaner = new Scanner(System.in);
-	
-	private void commitSession(Session session) {
-		session.getTransaction().commit();
-	}
-	
+	private Customer tempCustomer;
+	private Session tempSession;
+
 	private Session createSession() throws HibernateException {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		return session;
+		tempSession = HibernateUtil.getSessionFactory().getCurrentSession();
+		return tempSession;
 	}
 
-	public void createCustomerDatabase(String firstName, String lastName,
-			String email, String registryDate) {
-		Session session = createSession();
-		Customer tempCustomer = new Customer(firstName, lastName, email,
-				registryDate);
+	private void commitSession(Session tempSession) {
+		tempSession.getTransaction().commit();
+	}
+
+	public void createCustomer() {
+		saveCustomerInDatabase(getCustomerData());
+	}
+
+	public void saveCustomerInDatabase(Customer tempCustomer) {
+		tempSession = createSession();
 		System.out.println("--> Begin transcation");
-		session.beginTransaction();
+		tempSession.beginTransaction();
 		System.out.println("--> Save object");
-		session.save(tempCustomer);
-		commitSession(session);
+		tempSession.save(tempCustomer);
+		commitSession(tempSession);
 		System.out.println("--> Create object done.");
 	}
 
-	public void createCustomer(CustomerService service) {
+	public Customer getCustomerData() {
 		DateTimeFormatter formatter = DateTimeFormatter
 				.ofPattern("yyyy-MM-dd HH:mm:ss");
 		String firstName;
@@ -51,40 +54,45 @@ public class CustomerService {
 		System.out.println("Podaj email.");
 		email = skaner.nextLine();
 		registryDate = LocalDateTime.now().format(formatter);
-		service.createCustomerDatabase(firstName, lastName, email, registryDate);
+		tempCustomer = new Customer(firstName, lastName, email, registryDate);
+		return tempCustomer;
 	}
 
-	public void displayCustomerList() {
-		Session session = createSession();
-		System.out.println("--> Begin transaction");
-		session.beginTransaction();
-		System.out.println("--> Display all customers");
-		List<Customer> customerList = session.createQuery("from Customer")
-				.getResultList();
-		displayCustomers(customerList);
-		commitSession(session);
-		System.out.println("--> Query done.");
+	public void queryCustomer() {
+		queryCustomerInDatabase(getQueryData());
 	}
 
-	public void queryCustomerDatabase(String query) {
-		Session session = createSession();
-		System.out.println("--> Begin transaction");
-		session.beginTransaction();
-		System.out.println("--> Call query with attribute: " + query);
-		List<Customer> customerList = session.createQuery(
-				"from Customer where first_name='" + query + "' or last_name='"
-						+ query + "'").getResultList();
-		displayCustomers(customerList);
-		commitSession(session);
-		System.out.println("--> Query done.");
-	}
-
-	public void queryCustomer(CustomerService service) {
+	public String getQueryData() {
 		String query;
 		System.out.println("Podaj imie lub nazwisko klienta do wyszukania");
 		query = skaner.nextLine();
-		service.queryCustomerDatabase(query);
+		return query;
 
+	}
+
+	public void queryCustomerInDatabase(String query) {
+		tempSession = createSession();
+		System.out.println("--> Begin transaction");
+		tempSession.beginTransaction();
+		System.out.println("--> Call query with attribute: " + query);
+		List<Customer> customerList = tempSession.createQuery(
+				"from Customer where first_name='" + query + "' or last_name='"
+						+ query + "'").getResultList();
+		displayCustomers(customerList);
+		commitSession(tempSession);
+		System.out.println("--> Query done.");
+	}
+
+	public void displayCustomerList() {
+		tempSession = createSession();
+		System.out.println("--> Begin transaction");
+		tempSession.beginTransaction();
+		System.out.println("--> Display all customers");
+		List<Customer> customerList = tempSession.createQuery("from Customer")
+				.getResultList();
+		displayCustomers(customerList);
+		commitSession(tempSession);
+		System.out.println("--> Query done.");
 	}
 
 	private static void displayCustomers(List<Customer> customers) {
@@ -92,25 +100,40 @@ public class CustomerService {
 			System.out.println(tempCustomer);
 	}
 
-	public void updateCustomer(CustomerService service) {
-		Session session = createSession();
+	public void updateCustomer() {
+		tempSession = createSession();
 		System.out.println("--> Begin transaction");
-		session.beginTransaction();
+		tempSession.beginTransaction();
+		chooseAttributeToChange(getCustomerById());
+		System.out.println("--> Updating customer data");
+		commitSession(tempSession);
+		System.out.println("--> Update done.");
+
+	}
+
+	private Customer getCustomerById() throws NumberFormatException {
 		System.out.println("Podaj id klienta.");
 		int id = Integer.valueOf(skaner.nextLine());
-		Customer tempCustomer = session.get(Customer.class, id);
-		chooseAttributeToChange(tempCustomer);
-		System.out.println("--> Updating customer data");
-		commitSession(session);
-		System.out.println("--> Update done.");
+		Customer tempCustomer = tempSession.get(Customer.class, id);
+		return tempCustomer;
+	}
+
+	public void deleteCustomer() {
+		tempSession = createSession();
+		System.out.println("--> Begin transaction");
+		tempSession.beginTransaction();
+		System.out.println("--> Deleting customer data");
+		tempSession.delete(getCustomerById());
+		System.out.println("--> Delete done.");
+		commitSession(tempSession);
 
 	}
 
 	private void chooseAttributeToChange(Customer tempCustomer) {
 		System.out.println("Co chcesz zmieniæ: 1. imie; 2. nazwisko; 3. email");
-		int chose = Integer.valueOf(skaner.nextLine());
+		int choice = Integer.valueOf(skaner.nextLine());
 		String temp;
-		switch (chose) {
+		switch (choice) {
 		case 1: {
 			System.out.println("Jakie jest nowe imie?");
 			temp = skaner.nextLine();
@@ -134,21 +157,5 @@ public class CustomerService {
 			break;
 		}
 	}
-
-	public void deleteCustomer(CustomerService service) {
-		Session session = createSession();
-		System.out.println("--> Begin transaction");
-		session.beginTransaction();
-		System.out.println("Podaj id klienta.");
-		int id = Integer.valueOf(skaner.nextLine());
-		Customer tempCustomer = session.get(Customer.class, id);
-		System.out.println("--> Deleting customer data");
-		session.delete(tempCustomer);
-		System.out.println("--> Delete done.");
-		commitSession(session);
-		
-	}
-
-	
 
 }
