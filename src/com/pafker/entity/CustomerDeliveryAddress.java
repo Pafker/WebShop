@@ -30,6 +30,8 @@ public class CustomerDeliveryAddress {
 
 	@Column(name = "house_number")
 	private String houseNumber;
+	
+	
 
 	public CustomerDeliveryAddress() {
 	}

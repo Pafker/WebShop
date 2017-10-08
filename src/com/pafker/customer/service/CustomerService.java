@@ -9,13 +9,17 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import com.pafker.entity.Customer;
+import com.pafker.entity.CustomerDeliveryAddress;
 import com.pafker.util.HibernateUtil;
 
 public class CustomerService {
 
 	private Scanner skaner = new Scanner(System.in);
-	private Customer tempCustomer;
 	private Session tempSession;
+	private Customer tempCustomer;
+	private CustomerDeliveryAddress customerDeliveryAddress;
+
+	CustomerDeliveryAddressService addressService = new CustomerDeliveryAddressService();
 
 	private Session createSession() throws HibernateException {
 		tempSession = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -27,14 +31,17 @@ public class CustomerService {
 	}
 
 	public void createCustomer() {
-		saveCustomerInDatabase(getCustomerData());
+		saveCustomerInDatabase(getCustomerData(), customerDeliveryAddress);
 	}
 
-	public void saveCustomerInDatabase(Customer tempCustomer) {
+	public void saveCustomerInDatabase(Customer tempCustomer,
+			CustomerDeliveryAddress tempAddress) {
 		tempSession = createSession();
 		System.out.println("--> Begin transcation");
 		tempSession.beginTransaction();
 		System.out.println("--> Save object");
+		customerDeliveryAddress = addressService.getDeliveryAddressData();
+		tempCustomer.setCustomerDeliveryAddres(customerDeliveryAddress);
 		tempSession.save(tempCustomer);
 		commitSession(tempSession);
 		System.out.println("--> Create object done.");
@@ -130,7 +137,8 @@ public class CustomerService {
 	}
 
 	private void chooseAttributeToChange(Customer tempCustomer) {
-		System.out.println("Co chcesz zmieniæ: 1. imie; 2. nazwisko; 3. email");
+		System.out
+				.println("Co chcesz zmieniæ: 1. imie; 2. nazwisko; 3. email; 4. adres");
 		int choice = Integer.valueOf(skaner.nextLine());
 		String temp;
 		switch (choice) {
@@ -151,6 +159,11 @@ public class CustomerService {
 			temp = skaner.nextLine();
 			tempCustomer.setEmail(temp);
 			break;
+		}
+		case 4: {
+			System.out.println("Jaki jest nowy adres?");
+			customerDeliveryAddress = addressService.getDeliveryAddressData();
+			tempCustomer.setCustomerDeliveryAddres(customerDeliveryAddress);
 		}
 		default:
 			System.out.println("Zly wybor!");

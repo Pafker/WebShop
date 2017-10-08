@@ -4,26 +4,23 @@ public class WebShop {
 
 	public static void main(String[] args) {
 
-		CustomerService service = new CustomerService();
+		CustomerService customerService = new CustomerService();
 
 		// create customer
-		service.createCustomer();
+		customerService.createCustomer();
 
 		// query customer
-		//service.queryCustomer();
-		
+		customerService.queryCustomer();
+
 		// display all customers
-		service.displayCustomerList();
+		customerService.displayCustomerList();
 
 		// update customer
-		//service.updateCustomer();
-		
+		customerService.updateCustomer();
+
 		// delete customer
-		//service.deleteCustomer();
-		
-			
-		
-		
+		customerService.deleteCustomer();
+
 	}
 
 }
