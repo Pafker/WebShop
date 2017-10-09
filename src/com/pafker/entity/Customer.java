@@ -1,5 +1,8 @@
 package com.pafker.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -31,13 +35,18 @@ public class Customer {
 	@Column(name = "registry_date")
 	private String registryDate;
 
-	// set up a relation between instructor and instructor detail
+	// set up a relation between customer and customer detail
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "customer_delivery_address_id")
 	private CustomerDeliveryAddress customerDeliveryAddress;
 
+	// set up a relation between customer and orders
+	@OneToMany(mappedBy = "customer", cascade = { CascadeType.DETACH,
+			CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private List<Order> orders;
+
 	public Customer() {
-	};
+	}
 
 	public Customer(String firstName, String lastName, String email,
 			String registryDate) {
@@ -96,12 +105,29 @@ public class Customer {
 		this.customerDeliveryAddress = customerDeliveryAddress;
 	}
 
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", First Name=" + firstName
 				+ ", Last Name=" + lastName + ", Email=" + email
 				+ ", Registry Date=" + registryDate + ", Delivery Address="
 				+ customerDeliveryAddress + "]";
+	}
+
+	public void add(Order tempOrder) {
+		if (orders == null) {
+			orders = new ArrayList<>();
+		}
+		orders.add(tempOrder);
+		tempOrder.setCustomer(this);
+
 	}
 
 }
