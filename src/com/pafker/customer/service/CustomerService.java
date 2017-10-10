@@ -111,14 +111,15 @@ public class CustomerService {
 		tempSession = createSession();
 		System.out.println("--> Begin transaction");
 		tempSession.beginTransaction();
-		chooseAttributeToChange(getCustomerById());
+		chooseAttributeToChange(getCustomerById(tempSession));
 		System.out.println("--> Updating customer data");
 		commitSession(tempSession);
 		System.out.println("--> Update done.");
 
 	}
 
-	private Customer getCustomerById() throws NumberFormatException {
+	public Customer getCustomerById(Session tempSession)
+			throws NumberFormatException {
 		System.out.println("Podaj id klienta.");
 		int id = Integer.valueOf(skaner.nextLine());
 		Customer tempCustomer = tempSession.get(Customer.class, id);
@@ -130,7 +131,7 @@ public class CustomerService {
 		System.out.println("--> Begin transaction");
 		tempSession.beginTransaction();
 		System.out.println("--> Deleting customer data");
-		tempSession.delete(getCustomerById());
+		tempSession.delete(getCustomerById(tempSession));
 		System.out.println("--> Delete done.");
 		commitSession(tempSession);
 
