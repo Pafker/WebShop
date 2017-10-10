@@ -24,6 +24,9 @@ public class Order {
 	@Column(name = "total_prize")
 	private BigDecimal totalPrize;
 
+	@Column(name = "executed")
+	private String orderStatus;
+
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE,
 			CascadeType.PERSIST, CascadeType.REFRESH })
 	@JoinColumn(name = "customer_id")
@@ -52,6 +55,14 @@ public class Order {
 		this.totalPrize = totalPrize;
 	}
 
+	public String isOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -62,7 +73,8 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", Total Prize=" + totalPrize + "]";
+		return "Order [id=" + id + ", totalPrize=" + totalPrize
+				+ ", orderStatus=" + orderStatus + "]";
 	}
 
 }
