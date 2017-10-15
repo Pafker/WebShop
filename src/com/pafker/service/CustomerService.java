@@ -1,4 +1,4 @@
-package com.pafker.customer.service;
+package com.pafker.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -165,6 +165,7 @@ public class CustomerService {
 			System.out.println("Jaki jest nowy adres?");
 			customerDeliveryAddress = addressService.getDeliveryAddressData();
 			tempCustomer.setCustomerDeliveryAddres(customerDeliveryAddress);
+			break;
 		}
 		default:
 			System.out.println("Zly wybor!");

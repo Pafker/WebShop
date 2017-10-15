@@ -1,4 +1,4 @@
-package com.pafker.customer.service;
+package com.pafker.service;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
@@ -30,10 +30,10 @@ public class OrderService {
 		tempSession = createSession();
 		System.out.println("--> Begin transcation");
 		tempSession.beginTransaction();
-		System.out.println("--> Save object");
+		System.out.println("--> Retrieve object");
 		Customer tempCustomer = customerService.getCustomerById(tempSession);
 		Order tempOrder = new Order(setTotalPrizeForOrder());
-		tempCustomer.add(tempOrder);
+		tempCustomer.addOrder(tempOrder);
 		tempSession.save(tempOrder);
 		commitSession(tempSession);
 		System.out.println("--> Create object done.");
@@ -42,7 +42,7 @@ public class OrderService {
 	public BigDecimal setTotalPrizeForOrder() {
 		// temporary method
 		// TODO: implement auto-set prize
-		totalPrize = new BigDecimal("43.99");
+		totalPrize = new BigDecimal("13.99");
 		return totalPrize;
 	}
 
@@ -53,6 +53,7 @@ public class OrderService {
 		System.out.println("--> Get customer orders");
 		Customer tempCustomer = customerService.getCustomerById(tempSession);
 		System.out.println(tempCustomer + " has " + tempCustomer.getOrders());
+		commitSession(tempSession);
 	}
 
 	public void changeOrderStatus() {

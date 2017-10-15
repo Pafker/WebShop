@@ -1,4 +1,7 @@
-package com.pafker.customer.service;
+package com.pafker.service.test;
+
+import com.pafker.service.CustomerService;
+import com.pafker.service.OrderService;
 
 public class WebShop {
 
@@ -8,19 +11,19 @@ public class WebShop {
 		OrderService orderService = new OrderService();
 
 		// create customer
-		customerService.createCustomer();
+		//customerService.createCustomer();
 
 		// query customer
-		customerService.queryCustomer();
+		//customerService.queryCustomer();
 
 		// display all customers
-		customerService.displayCustomerList();
+		//customerService.displayCustomerList();
 
 		// update customer
-		customerService.updateCustomer();
+		//customerService.updateCustomer();
 
 		// delete customer
-		customerService.deleteCustomer();
+		//customerService.deleteCustomer();
 
 		// create order for customer
 		orderService.createOrder();

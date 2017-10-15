@@ -1,4 +1,4 @@
-package com.pafker.customer.service;
+package com.pafker.service;
 
 import java.util.Scanner;
 
