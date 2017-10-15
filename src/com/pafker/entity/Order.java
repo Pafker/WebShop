@@ -1,6 +1,8 @@
 package com.pafker.entity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -32,11 +35,16 @@ public class Order {
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 
+	@OneToMany(mappedBy = "order", cascade = { CascadeType.DETACH,
+			CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private List<OrderDetail> orderDetails;
+
 	public Order() {
 	}
 
 	public Order(BigDecimal totalPrize) {
 		this.totalPrize = totalPrize;
+		this.orderStatus = "false";
 	}
 
 	public int getId() {
@@ -55,7 +63,7 @@ public class Order {
 		this.totalPrize = totalPrize;
 	}
 
-	public String isOrderStatus() {
+	public String getOrderStatus() {
 		return orderStatus;
 	}
 
@@ -71,10 +79,27 @@ public class Order {
 		this.customer = customer;
 	}
 
+	public List<OrderDetail> getOrderDetails() {
+		return orderDetails;
+	}
+
+	public void setOrderDetails(List<OrderDetail> orderDetails) {
+		this.orderDetails = orderDetails;
+	}
+
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", totalPrize=" + totalPrize
 				+ ", orderStatus=" + orderStatus + "]";
+	}
+
+	public void addOrderDetails(OrderDetail tempOrderDetail) {
+		if (orderDetails == null) {
+			orderDetails = new ArrayList<>();
+		}
+		orderDetails.add(tempOrderDetail);
+		tempOrderDetail.setOrder(this);
+
 	}
 
 }

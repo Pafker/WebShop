@@ -121,7 +121,7 @@ public class Customer {
 				+ customerDeliveryAddress + "]";
 	}
 
-	public void add(Order tempOrder) {
+	public void addOrder(Order tempOrder) {
 		if (orders == null) {
 			orders = new ArrayList<>();
 		}

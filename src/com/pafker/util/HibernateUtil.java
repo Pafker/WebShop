@@ -6,6 +6,8 @@ import org.hibernate.SessionFactory;
 import com.pafker.entity.Customer;
 import com.pafker.entity.CustomerDeliveryAddress;
 import com.pafker.entity.Order;
+import com.pafker.entity.OrderDetail;
+import com.pafker.entity.Product;
 
 public class HibernateUtil {
 
@@ -17,6 +19,8 @@ public class HibernateUtil {
 				.addAnnotatedClass(Customer.class)
 				.addAnnotatedClass(CustomerDeliveryAddress.class)
 				.addAnnotatedClass(Order.class)
+				.addAnnotatedClass(Product.class)
+				.addAnnotatedClass(OrderDetail.class)
 				.buildSessionFactory();
 		return factory;
 	}
