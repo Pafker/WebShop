@@ -2,6 +2,7 @@ package com.pafker.service.test;
 
 import com.pafker.service.CustomerService;
 import com.pafker.service.OrderService;
+import com.pafker.service.ProductService;
 
 public class WebShop {
 
@@ -9,31 +10,49 @@ public class WebShop {
 
 		CustomerService customerService = new CustomerService();
 		OrderService orderService = new OrderService();
+		ProductService productService = new ProductService();
 
 		// create customer
-		//customerService.createCustomer();
+		// customerService.createCustomer();
 
 		// query customer
-		//customerService.queryCustomer();
+		// customerService.queryCustomer();
 
 		// display all customers
-		//customerService.displayCustomerList();
+		// customerService.displayCustomerList();
 
 		// update customer
-		//customerService.updateCustomer();
+		// customerService.updateCustomer();
 
 		// delete customer
-		//customerService.deleteCustomer();
+		// customerService.deleteCustomer();
 
 		// create order for customer
-		orderService.createOrder();
+		// orderService.createOrder();
 
 		// display customer's orders
-		orderService.getCustomerOrders();
+		// orderService.getCustomerOrders();
 
 		// change order status
-		orderService.changeOrderStatus();
+		// orderService.changeOrderStatus();
 
+		// create product
+		productService.createProduct();
+
+		// query product
+		productService.queryProduct();
+
+		// display all products
+		productService.displayProductList();
+
+		// update product
+		productService.updateProduct();
+
+		// delete product
+		productService.deleteProduct();
+
+		// display all products
+		productService.displayProductList();
 	}
 
 }
