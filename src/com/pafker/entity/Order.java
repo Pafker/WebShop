@@ -40,6 +40,7 @@ public class Order {
 	private List<OrderDetail> orderDetails;
 
 	public Order() {
+		this.orderStatus = "false";
 	}
 
 	public Order(BigDecimal totalPrize) {
